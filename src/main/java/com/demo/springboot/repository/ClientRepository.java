@@ -15,7 +15,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             @Param("password") String password
     );
 
-    Optional<Client> findClientByLoginAndPassword(
+    Client findClientByLoginAndPassword(
             @Param("login") String login,
             @Param("password") String password
     );

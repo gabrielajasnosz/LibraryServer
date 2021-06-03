@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LibraryService {
@@ -66,13 +67,17 @@ public class LibraryService {
         return clientRepo.save(client);
     }
 
+    public Client getClient(Client client)
+    {
+        return clientRepo.findClientByLoginAndPassword(client.getLogin(),client.getPassword());
+    }
 
     public boolean existsByLoginAndPassword(String login, String password) {
         return clientRepo.existsByLoginAndPassword(login, password);
     }
 
     public Client findClientByLoginAndPassword(String login, String password) {
-        return clientRepo.findClientByLoginAndPassword(login, password).orElseThrow(() -> new ClientNotFoundException("Wrong login or password."));
+        return clientRepo.findClientByLoginAndPassword(login, password);
     }
 
     public Client deleteClientByLoginAndPassword(String login, String password) {

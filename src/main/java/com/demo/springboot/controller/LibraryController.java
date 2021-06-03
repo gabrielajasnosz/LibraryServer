@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -40,8 +41,8 @@ public class LibraryController {
     @GetMapping(
             value = "/image/{id}",
             produces = MediaType.IMAGE_JPEG_VALUE
-
     )
+
     public @ResponseBody
     byte[] getImageWithMediaType(@PathVariable Integer id) throws IOException {
         InputStream in = getClass()
@@ -89,12 +90,15 @@ public class LibraryController {
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/client/login")
-    public ResponseEntity<HttpStatus> login(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password) {
-        if (libraryService.existsByLoginAndPassword(login, password) == false) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    @PostMapping("/client/login")
+    public ResponseEntity<Client> login(@RequestBody Client client) {
+        Client loggedClient = libraryService.getClient(client);
+
+        if (!libraryService.existsByLoginAndPassword(loggedClient.getLogin(),loggedClient.getPassword())) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<Client>(loggedClient,HttpStatus.OK);
         }
     }
 
