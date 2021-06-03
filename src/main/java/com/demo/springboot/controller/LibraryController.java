@@ -152,7 +152,7 @@ public class LibraryController {
     @Transactional
     @DeleteMapping("/books/rented/delete_rent")
     public ResponseEntity<Rental> deleteRent(@RequestParam(value = "rentalId", required = true) Long rentalId) {
-        Rental removedRent = libraryService.deleteRentalByBookId(rentalId);
+        Rental removedRent = libraryService.deleteRentalByRentalId(rentalId);
         return new ResponseEntity<>(removedRent, HttpStatus.OK);
     }
 

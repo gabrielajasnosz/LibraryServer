@@ -138,7 +138,7 @@ public class LibraryService {
                 System.out.println("is available");
                 if (clientRepo.existsByLoginAndPassword(login, password)) {
                     Rental newRental = rentalRepo.rentBook(login, password, bookId);
-                    bookRepo.changeAvailability(bookId);
+                    bookRepo.setFalse(bookId);
                     return newRental;
                 } else {
                     throw new ClientNotFoundException("Wrong login or password.");
@@ -150,9 +150,10 @@ public class LibraryService {
             throw new BookNotFoundException("Book with id " + bookId + " not found");
         }
     }
-    public Rental deleteRentalByBookId(Long rentalId) {
+    public Rental deleteRentalByRentalId(Long rentalId) {
         if (rentalRepo.existsById(rentalId)) {
             Rental removedRental = rentalRepo.deleteRentalByRentalId(rentalId).get(0);
+            bookRepo.setTrue(removedRental.getBook().getBookId());
             return removedRental;
         } else {
             throw new BookNotFoundException("Rental with id " + rentalId + " not found");

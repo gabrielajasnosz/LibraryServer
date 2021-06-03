@@ -27,9 +27,17 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(
             value = "UPDATE library.book set availability=false where book_id= :bookId", nativeQuery = true
     )
-    void changeAvailability(
+    void setFalse(
             @Param("bookId") Long bookId
     );
 
+    @Transactional
+    @Modifying
+    @Query(
+            value = "UPDATE library.book set availability=true where book_id= :bookId", nativeQuery = true
+    )
+    void setTrue(
+            @Param("bookId") Long bookId
+    );
     List<Book> deleteBookByBookId(@Param("bookId") Long bookId);
 }
