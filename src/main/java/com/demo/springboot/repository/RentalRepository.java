@@ -1,5 +1,6 @@
 package com.demo.springboot.repository;
 
+import com.demo.springboot.model.Book;
 import com.demo.springboot.model.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -32,4 +33,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
                     @Param("password") String password,
                     @Param("bookId") Long bookId
     );
+
+    List<Rental> deleteRentalByRentalId(@Param("rentalId") Long rentalId);
 }

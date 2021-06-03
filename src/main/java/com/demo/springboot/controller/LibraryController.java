@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -90,15 +89,13 @@ public class LibraryController {
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
-    @PostMapping("/client/login")
+    @PostMapping(value = "/client/login")
     public ResponseEntity<Client> login(@RequestBody Client client) {
         Client loggedClient = libraryService.getClient(client);
-
-        if (!libraryService.existsByLoginAndPassword(loggedClient.getLogin(),loggedClient.getPassword())) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!libraryService.existsByLoginAndPassword(client.getLogin(),client.getPassword())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<Client>(loggedClient,HttpStatus.OK);
+            return new ResponseEntity<>(loggedClient,HttpStatus.OK);
         }
     }
 
@@ -152,6 +149,13 @@ public class LibraryController {
         return new ResponseEntity<>(clientRentals, HttpStatus.OK);
     }
 
+    @Transactional
+    @DeleteMapping("/books/rented/delete_rent")
+    public ResponseEntity<Rental> deleteRent(@RequestParam(value = "rentalId", required = true) Long rentalId) {
+        Rental removedRent = libraryService.deleteRentalByBookId(rentalId);
+        return new ResponseEntity<>(removedRent, HttpStatus.OK);
+    }
+
     @PostMapping("/books/rent")
     public ResponseEntity<Rental> rentBook(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password, @RequestParam(value = "book_id", required = true) Long bookId)  {
         Rental newRental = libraryService.rentBook(login,password,bookId);
@@ -161,11 +165,12 @@ public class LibraryController {
 
     //ADMIN
     @PostMapping(value = "/admin/login")
-    public ResponseEntity<HttpStatus> loginAdmin(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password) {
-        if (libraryService.adminExistsByLoginAndPassword(login, password) == false) {
+    public ResponseEntity<Admin> loginAdmin(@RequestBody Admin admin) {
+        Admin logAdmin = libraryService.getAdmin(admin);
+        if (libraryService.adminExistsByLoginAndPassword(admin.getLogin(), admin.getPassword()) == false) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(logAdmin,HttpStatus.OK);
         }
     }
 }

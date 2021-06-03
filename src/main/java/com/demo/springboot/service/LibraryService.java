@@ -72,6 +72,7 @@ public class LibraryService {
         return clientRepo.findClientByLoginAndPassword(client.getLogin(),client.getPassword());
     }
 
+
     public boolean existsByLoginAndPassword(String login, String password) {
         return clientRepo.existsByLoginAndPassword(login, password);
     }
@@ -149,6 +150,14 @@ public class LibraryService {
             throw new BookNotFoundException("Book with id " + bookId + " not found");
         }
     }
+    public Rental deleteRentalByBookId(Long rentalId) {
+        if (rentalRepo.existsById(rentalId)) {
+            Rental removedRental = rentalRepo.deleteRentalByRentalId(rentalId).get(0);
+            return removedRental;
+        } else {
+            throw new BookNotFoundException("Rental with id " + rentalId + " not found");
+        }
+    }
 
     //ADMIN
     public Boolean adminExistsByLoginAndPassword(String login, String password) {
@@ -158,4 +167,10 @@ public class LibraryService {
             throw new ClientNotFoundException("Wrong login or password.");
         }
     }
+
+    public Admin getAdmin(Admin admin)
+    {
+        return adminRepo.findAdminByLoginAndPassword(admin.getLogin(),admin.getPassword());
+    }
+
 }
