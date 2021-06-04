@@ -17,15 +17,17 @@ public class LibraryService {
     private final AuthorRepository authorRepo;
     private final RentalRepository rentalRepo;
     private final AdminRepository adminRepo;
+    private final CategoryRepository catRepo;
 
     @Autowired
-    public LibraryService(BookRepository bookRepo, ClientRepository clientRepo, PublishingHouseRepository publHouseRepo, AuthorRepository authorRepo, RentalRepository rentalRepo, AdminRepository adminRepo) {
+    public LibraryService(BookRepository bookRepo, ClientRepository clientRepo, PublishingHouseRepository publHouseRepo, AuthorRepository authorRepo, RentalRepository rentalRepo, AdminRepository adminRepo, CategoryRepository catRepo) {
         this.bookRepo = bookRepo;
         this.clientRepo = clientRepo;
         this.publHouseRepo = publHouseRepo;
         this.authorRepo = authorRepo;
         this.rentalRepo = rentalRepo;
         this.adminRepo = adminRepo;
+        this.catRepo=catRepo;
     }
 
     //BOOK SECTION_______________________________________
@@ -58,7 +60,11 @@ public class LibraryService {
         }
     }
 
+
     //END OF BOOK SECTION_______________________________________
+    public List<Category> getAllCategories() {
+        return catRepo.findAll();
+    }
 
     //CLIENT SECTION_______________________________________
     public Client addClient(Client client) {

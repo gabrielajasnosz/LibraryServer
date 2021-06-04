@@ -76,6 +76,12 @@ public class LibraryController {
 
     //END OF BOOK SECTION_______________________________________
 
+    @GetMapping("/books/category/all")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = libraryService.getAllCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
     //CLIENT SECTION_______________________________________
     @GetMapping("/client")
     public ResponseEntity<Client> getClientData(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password) {
