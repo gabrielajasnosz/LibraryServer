@@ -67,9 +67,8 @@ public class LibraryService {
         return clientRepo.save(client);
     }
 
-    public Client getClient(Client client)
-    {
-        return clientRepo.findClientByLoginAndPassword(client.getLogin(),client.getPassword());
+    public Client getClient(Client client) {
+        return clientRepo.findClientByLoginAndPassword(client.getLogin(), client.getPassword());
     }
 
 
@@ -83,8 +82,12 @@ public class LibraryService {
 
     public Client deleteClientByLoginAndPassword(String login, String password) {
         if (clientRepo.existsByLoginAndPassword(login, password)) {
-            Client removedClient = clientRepo.deleteClientByLoginAndPassword(login, password).get(0);
-            return removedClient;
+            if (rentalRepo.getRentalByClientLoginAndPassword(login, password).isEmpty()) {
+                Client removedClient = clientRepo.deleteClientByLoginAndPassword(login, password).get(0);
+                return removedClient;
+            } else {
+                throw new IllegalStateException("Client has rentals.");
+            }
         } else {
             throw new ClientNotFoundException("Wrong login or password.");
         }
@@ -150,6 +153,7 @@ public class LibraryService {
             throw new BookNotFoundException("Book with id " + bookId + " not found");
         }
     }
+
     public Rental deleteRentalByRentalId(Long rentalId) {
         if (rentalRepo.existsById(rentalId)) {
             Rental removedRental = rentalRepo.deleteRentalByRentalId(rentalId).get(0);
@@ -169,9 +173,8 @@ public class LibraryService {
         }
     }
 
-    public Admin getAdmin(Admin admin)
-    {
-        return adminRepo.findAdminByLoginAndPassword(admin.getLogin(),admin.getPassword());
+    public Admin getAdmin(Admin admin) {
+        return adminRepo.findAdminByLoginAndPassword(admin.getLogin(), admin.getPassword());
     }
 
 }
