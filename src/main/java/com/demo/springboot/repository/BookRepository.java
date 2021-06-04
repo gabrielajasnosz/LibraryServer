@@ -14,12 +14,19 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findBookByBookId(Long bookId);
-
     @Query(
             value = "select availability from library.book where book_id=:bookId", nativeQuery = true
     )
+
     Boolean checkAvailabilityByBookid(
             @Param("bookId") Long bookId
+    );
+
+    @Query(
+            value = "select * from library.book where book.category_id= :categoryId", nativeQuery = true
+    )
+    List<Book> getBooksByCategory(
+            @Param("categoryId") Long categoryId
     );
 
     @Transactional

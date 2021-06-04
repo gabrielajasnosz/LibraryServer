@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LibraryService {
@@ -38,6 +37,10 @@ public class LibraryService {
         return bookRepo.findAll();
     }
 
+    public List<Book> getBooksByCategory(Long id) {
+        return bookRepo.getBooksByCategory(id);
+    }
+
     public Book addBook(Book book) {
         return bookRepo.save(book);
     }
@@ -57,7 +60,6 @@ public class LibraryService {
 
     //END OF BOOK SECTION_______________________________________
 
-
     //CLIENT SECTION_______________________________________
     public Client addClient(Client client) {
         return clientRepo.save(client);
@@ -70,7 +72,6 @@ public class LibraryService {
     public Client getClient(Client client) {
         return clientRepo.findClientByLoginAndPassword(client.getLogin(), client.getPassword());
     }
-
 
     public boolean existsByLoginAndPassword(String login, String password) {
         return clientRepo.existsByLoginAndPassword(login, password);
@@ -119,7 +120,6 @@ public class LibraryService {
         } else {
             throw new IllegalArgumentException("Illegal argument");
         }
-
     }
 
     //Rentals
@@ -176,5 +176,4 @@ public class LibraryService {
     public Admin getAdmin(Admin admin) {
         return adminRepo.findAdminByLoginAndPassword(admin.getLogin(), admin.getPassword());
     }
-
 }

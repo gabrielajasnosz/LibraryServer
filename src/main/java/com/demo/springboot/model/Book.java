@@ -11,7 +11,6 @@ public class Book implements Serializable {
     private Long bookId;
 
     private String title;
-    private String genre;
 
     @Column(name = "book_language")
     private String bookLanguage;
@@ -30,6 +29,10 @@ public class Book implements Serializable {
     @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     private Author author;
 
+    @ManyToOne()
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
+
     public Book() {
     }
 
@@ -44,9 +47,8 @@ public class Book implements Serializable {
     public PublishingHouse getPublishingHouse() {
         return publishingHouse;
     }
-
-    public String getGenre() {
-        return genre;
+    public Category getCategory() {
+        return category;
     }
 
     public String getBookLanguage() {

@@ -51,27 +51,46 @@ insert INTO library.author(name,surname,nationality,publication_period, writing_
 ('Piotr','Nowak','Szwajcaria','X wiek','niemiecki');
 
 
+CREATE TABLE library.category(
+  category_id bigint PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+  title CHARACTER VARYING(100)
+);
+
+
+INSERT INTO library.category(title)VALUES
+('informatyka'),
+('dramat'),
+('filozofia'),
+('kryminał'),
+('fantastyka');
+
+
+
 CREATE TABLE library.book (
   book_id bigint PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
   title CHARACTER VARYING(100),
   author_id bigint,
   publishing_house_id bigint,
-  genre CHARACTER VARYING(30),
+  category_id bigint,
   book_language CHARACTER VARYING(15),
   publication_date CHARACTER VARYING(4),
   availability BOOLEAN,
   description text,
 CONSTRAINT book_fk_a FOREIGN KEY(author_id) REFERENCES library.author(author_id),
-CONSTRAINT book_fk_b FOREIGN KEY(publishing_house_id) REFERENCES library.publishing_house(publishing_house_id)
+CONSTRAINT book_fk_b FOREIGN KEY(publishing_house_id) REFERENCES library.publishing_house(publishing_house_id),
+CONSTRAINT book_fk_c FOREIGN KEY(category_id) REFERENCES library.category(category_id)
 );
 
-INSERT INTO library.book(title,author_id,publishing_house_id,genre,book_language,publication_date,availability, description)VALUES
-('Thinking in Java. Edycja polska. Wydanie IV',1,1,'Programowanie','polski','2009',true, 'Książka "Thinking in Java. Edycja polska. Wydanie IV" zawiera szczegółowe omówienie zasad programowania w Javie. Przeznaczona jest dla początkujących programistów i dla ekspertów. Przystępnie prezentuje zarówno zagadnienia podstawowe, jak i zaawansowane. Dziesiątki przykładów ułatwiają zrozumienie każdego genreu. Wszystko to sprawia, że poznajemy prawdziwą Javę -- uniwersalną, czytelną, niezależną od platformy systemowej. Czytając tę książkę, dowiesz się, co jest niezbędne do tworzenia wydajnych i bezpiecznych aplikacji w Javie.'),
-('Spring w akcji. Wydanie V',2,1,'Programowanie','polski','2009',true, 'Spring jest frameworkiem ułatwiającym tworzenie nowoczesnych aplikacji w Javie. To narzędzie, które dynamicznie się rozwija i z każdym nowym wydaniem zapewnia programistom kolejne, ekscytujące możliwości. Piąta wersja Springa okazała się krokiem milowym. Obecnie projektanci mogą tworzyć mikrousługi, korzystać z funkcji programowania reaktywnego i doskonalić budowanie aplikacji zgodnie z modelem MVC. Dzięki pełnej integracji Springa ze Spring Boot nawet najbardziej złożone projekty wymagają minimalnej ilości kodu konfiguracyjnego. W efekcie tworzone aplikacje internetowe są w większym stopniu skalowalne i efektywniejsze w wykorzystywaniu wątków.'),
-('O istocie ludzkiej',3,'2','filozofia','grecki','1932',false, 'description'),
-('Chemia smierci',3,'4','kriminal','angielski','1972',true, 'description'),
-('Hambet',4,'2','sztuka teatralna','litewski','1927',false, 'description'),
-('Wojna swiatow',5,'5','dreszczowiec','turecki','2010',false, 'description');
+INSERT INTO library.book(title,author_id,publishing_house_id,category_id,book_language,publication_date,availability, description)VALUES
+('Thinking in Java. Edycja polska. Wydanie IV',1,1,1,'polski','2009',true, 'Książka "Thinking in Java. Edycja polska. Wydanie IV" zawiera szczegółowe omówienie zasad programowania w Javie. Przeznaczona jest dla początkujących programistów i dla ekspertów. Przystępnie prezentuje zarówno zagadnienia podstawowe, jak i zaawansowane. Dziesiątki przykładów ułatwiają zrozumienie każdego genreu. Wszystko to sprawia, że poznajemy prawdziwą Javę -- uniwersalną, czytelną, niezależną od platformy systemowej. Czytając tę książkę, dowiesz się, co jest niezbędne do tworzenia wydajnych i bezpiecznych aplikacji w Javie.'),
+('Spring w akcji. Wydanie V',2,1,1,'polski','2009',true, 'Spring jest frameworkiem ułatwiającym tworzenie nowoczesnych aplikacji w Javie. To narzędzie, które dynamicznie się rozwija i z każdym nowym wydaniem zapewnia programistom kolejne, ekscytujące możliwości. Piąta wersja Springa okazała się krokiem milowym. Obecnie projektanci mogą tworzyć mikrousługi, korzystać z funkcji programowania reaktywnego i doskonalić budowanie aplikacji zgodnie z modelem MVC. Dzięki pełnej integracji Springa ze Spring Boot nawet najbardziej złożone projekty wymagają minimalnej ilości kodu konfiguracyjnego. W efekcie tworzone aplikacje internetowe są w większym stopniu skalowalne i efektywniejsze w wykorzystywaniu wątków.'),
+('O istocie ludzkiej',3,'2',3,'grecki','1932',false, 'description'),
+('Chemia smierci',3,'4',4,'angielski','1972',true, 'description'),
+('Hamlet',4,'2',2,'litewski','1927',false, 'description'),
+('Wojna swiatow',5,'5',4,'turecki','2010',false, 'description'),
+('Java ME. Tworzenie zaawansowanych aplikacji na smartfony',5,'5',1,'angielski','2012',true, 'Ponad 80% dostępnych obecnie telefonów komórkowych współpracuje z platformą Java ME. Java ME jest okrojoną (Micro Edition) wersją popularnego języka Java. Jeżeli chcesz przygotować uniwersalną aplikację, działającą na większości telefonów, ta platforma powinna być Twoim naturalnym wyborem. Korzystając z wygodnego i powszechnie znanego języka oraz licznych narzędzi wspomagających pracę, błyskawicznie osiągniesz swój cel. Jednak zanim przystąpisz do działania, musisz poznać możliwości i ograniczenia Javy ME oraz nauczyć się tworzyć wysokiej jakości kod.Z tą książką to nic trudnego. Omawia ona wszystkie zagadnienia związane z profesjonalnym wytwarzaniem aplikacji dla platformy Java ME. W trakcie lektury dowiesz się, jak podzielić aplikację na moduły nadające się do ponownego użycia, jak utrwalać dane oraz jak testować kod.');
+
+
 
 CREATE TABLE library.rental(
   rental_id bigint PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -87,7 +106,6 @@ INSERT INTO library.rental(book_id,client_id,rental_date,return_date)VALUES
 (3,4,'2020-05-04','2020-07-04'),
 (5,1,'2020-04-04','2020-06-04'),
 (6,3,'2020-05-07','2020-07-07');
-
 
 
 CREATE TABLE library.admin

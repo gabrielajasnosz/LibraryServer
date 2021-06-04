@@ -26,8 +26,14 @@ public class LibraryController {
 
     //BOOK SECTION_______________________________________
     @GetMapping("/books/all")
-    public ResponseEntity<List<Book>> getAllUsers() {
+    public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = libraryService.getAllBooks();
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @GetMapping("/books/category/{category_id}")
+    public ResponseEntity<List<Book>> getBooksByCategory(@PathVariable("category_id") Long categoryId) {
+        List<Book> books = libraryService.getBooksByCategory(categoryId);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
@@ -122,7 +128,6 @@ public class LibraryController {
     }
     //END OF PUBLISHING HOUSE SECTION_______________________________________
 
-
     //AUTHOR______________________________________
     @GetMapping("/authors/all")
     public ResponseEntity<List<Author>> getAllAuthors() {
@@ -161,7 +166,6 @@ public class LibraryController {
         Rental newRental = libraryService.rentBook(login,password,bookId);
         return new ResponseEntity<>(newRental, HttpStatus.OK);
     }
-
 
     //ADMIN
     @PostMapping(value = "/admin/login")
