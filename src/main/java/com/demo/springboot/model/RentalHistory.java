@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Rental implements Serializable {
+public class RentalHistory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rental_id", nullable = false, updatable = false)
@@ -21,7 +21,14 @@ public class Rental implements Serializable {
     private Client client;
 
 
-    public Rental() {
+    public RentalHistory() {
+    }
+
+    public RentalHistory(String rentalDate, String returnDate, Book book, Client client) {
+        this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+        this.book = book;
+        this.client = client;
     }
 
 
