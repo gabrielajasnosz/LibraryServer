@@ -91,8 +91,13 @@ public class LibraryController {
 
     @PostMapping("/client/register")
     public ResponseEntity<Client> addClient(@RequestBody Client client) {
-        Client newClient = libraryService.addClient(client);
-        return new ResponseEntity<>(newClient, HttpStatus.CREATED);
+
+        if (libraryService.existsByLogin(client.getLogin())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            Client newClient = libraryService.addClient(client);
+            return new ResponseEntity<>(newClient, HttpStatus.CREATED);
+        }
     }
 
     @PutMapping("/client/update")

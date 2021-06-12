@@ -75,6 +75,10 @@ public class LibraryService {
         return clientRepo.save(client);
     }
 
+    public boolean existsByLogin(String login) {
+        return clientRepo.existsByLogin(login);
+    }
+
     public Client updateClient(Client client) {
         return clientRepo.save(client);
     }

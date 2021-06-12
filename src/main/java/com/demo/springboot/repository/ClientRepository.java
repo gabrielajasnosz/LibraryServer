@@ -18,6 +18,10 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             @Param("password") String password
     );
 
+    Boolean existsByLogin(
+            @Param("login") String login
+    );
+
     Client findClientByLoginAndPassword(
             @Param("login") String login,
             @Param("password") String password
