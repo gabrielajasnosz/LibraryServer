@@ -3,6 +3,8 @@ package com.demo.springboot.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/** Specifies the entity "Client" for the JPA.
+ */
 @Entity(name = "client")
 @Table(name = "client")
 public class Client implements Serializable {

@@ -3,6 +3,9 @@ package com.demo.springboot.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Specifies the entity "PublishingHouse" for the JPA.
+ */
 @Entity
 public class PublishingHouse implements Serializable {
     @Id
@@ -12,9 +15,6 @@ public class PublishingHouse implements Serializable {
 
     private String name;
     private String city;
-
-    public PublishingHouse() {
-    }
 
     public String getName() {
         return name;

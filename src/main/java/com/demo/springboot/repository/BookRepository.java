@@ -11,6 +11,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * JPA repository for Book entity.
+ */
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findBookByBookId(Long bookId);

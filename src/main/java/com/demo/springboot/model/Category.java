@@ -3,6 +3,9 @@ package com.demo.springboot.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Specifies the entity "Category" for the JPA.
+ */
 @Entity
 public class Category implements Serializable {
     @Id

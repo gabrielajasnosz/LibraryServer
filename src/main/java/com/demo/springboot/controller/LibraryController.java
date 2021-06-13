@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Api controller of the library.
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/library")
@@ -92,7 +95,7 @@ public class LibraryController {
     @PostMapping("/client/register")
     public ResponseEntity<Client> addClient(@RequestBody Client client) {
 
-        if (libraryService.existsByLogin(client.getLogin())){
+        if (libraryService.existsByLogin(client.getLogin())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             Client newClient = libraryService.addClient(client);
@@ -109,10 +112,10 @@ public class LibraryController {
     @PostMapping(value = "/client/login")
     public ResponseEntity<Client> login(@RequestBody Client client) {
         Client loggedClient = libraryService.getClient(client);
-        if (!libraryService.existsByLoginAndPassword(client.getLogin(),client.getPassword())) {
+        if (!libraryService.existsByLoginAndPassword(client.getLogin(), client.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(loggedClient,HttpStatus.OK);
+            return new ResponseEntity<>(loggedClient, HttpStatus.OK);
         }
     }
 
@@ -173,8 +176,8 @@ public class LibraryController {
     }
 
     @PostMapping("/books/rent")
-    public ResponseEntity<Rental> rentBook(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password, @RequestParam(value = "book_id", required = true) Long bookId)  {
-        Rental newRental = libraryService.rentBook(login,password,bookId);
+    public ResponseEntity<Rental> rentBook(@RequestParam(value = "login", required = true) String login, @RequestParam(value = "password", required = true) String password, @RequestParam(value = "book_id", required = true) Long bookId) {
+        Rental newRental = libraryService.rentBook(login, password, bookId);
         return new ResponseEntity<>(newRental, HttpStatus.OK);
     }
 
@@ -185,7 +188,7 @@ public class LibraryController {
         if (libraryService.adminExistsByLoginAndPassword(admin.getLogin(), admin.getPassword()) == false) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(logAdmin,HttpStatus.OK);
+            return new ResponseEntity<>(logAdmin, HttpStatus.OK);
         }
     }
 }

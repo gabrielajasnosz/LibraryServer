@@ -1,19 +1,12 @@
 package com.demo.springboot.model;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Specifies the entity "Author" for the JPA.
+ */
 @Entity
 public class Author implements Serializable {
-
-//    @OneToMany(targetEntity = Book.class, mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    public List<Book> book =new ArrayList<>();
-//
-//    public void setBook(List<Book> book) {
-//        this.book = book;
-//    }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,23 +22,14 @@ public class Author implements Serializable {
     @Column(name="writing_language")
     private String writingLanguage;
 
-
     public Author() { }
 
-    public Author(String surname, String name, String nationality, String publicationPeriod, String writingLanguage) {
-        this.surname = surname;
-        this.name = name;
-        this.nationality = nationality;
-        this.publicationPeriod = publicationPeriod;
-        this.writingLanguage = writingLanguage;
-    }
     public Long getAuthorId() { return authorId;}
     public String getSurname() {return surname;}
     public String getName() { return name;}
     public String getNationality() { return nationality;}
     public String getPublicationPeriod() { return publicationPeriod;}
     public String getWritingLanguage() { return writingLanguage;}
-
 
     @Override
     public String toString() {

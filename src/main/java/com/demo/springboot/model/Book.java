@@ -3,6 +3,9 @@ package com.demo.springboot.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Specifies the entity "Book" for the JPA.
+ */
 @Entity
 public class Book implements Serializable {
     @Id
@@ -21,14 +24,23 @@ public class Book implements Serializable {
     private Boolean availability;
     private String description;
 
+    /**
+     * Joins entity PublishingHouse with the Book column.
+     */
     @ManyToOne()
     @JoinColumn(name = "publishing_house_id", referencedColumnName = "publishing_house_id")
     private PublishingHouse publishingHouse;
 
+    /**
+     * Joins entity Author with the Book column.
+     */
     @ManyToOne()
     @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     private Author author;
 
+    /**
+     * Joins entity Category with the Book column.
+     */
     @ManyToOne()
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
@@ -44,9 +56,16 @@ public class Book implements Serializable {
         return title;
     }
 
+    /** Gets the publishing house of the book.
+     * @return A PublishingHouse entity representing the book's PublishingHouse
+     */
     public PublishingHouse getPublishingHouse() {
         return publishingHouse;
     }
+
+    /** Gets the category of the book.
+     * @return A Category entity representing the book's Category.
+     */
     public Category getCategory() {
         return category;
     }
@@ -67,6 +86,9 @@ public class Book implements Serializable {
         return description;
     }
 
+    /** Gets the Author of the book.
+     * @return An Author entity representing the book's Author.
+     */
     public Author getAuthor() {
         return author;
     }
